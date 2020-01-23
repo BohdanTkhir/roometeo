@@ -45,7 +45,7 @@ int oledSaveCounter = 0;
 
 /* CONFIGURATION SECTION*/
 #define TVOC_LIMIT     1000 // TVOC ppd buzzer signal 
-#define OLED_CYCLES    2    // oled cycles before turning off to save lifetime
+#define OLED_CYCLES    10    // oled cycles before turning off to save lifetime
 #define PERFECT_CO2    450  // 400.....450 ppm
 #define GOOD_CO2       600  // 450.....600 ppm 
 #define ACCEPTABLE_CO2 1000 // 600....1000 ppm 
