@@ -1,6 +1,8 @@
 #include <SoftwareSerial.h>
 #include <Wire.h>
 #include "Adafruit_AM2320.h"
+#include "Adafruit_CCS811.h"
+
 
 // I2C OLED
 #include "SSD1306Ascii.h"
@@ -17,9 +19,14 @@ unsigned char response[9];
 // Humidity + Temperature:
 Adafruit_AM2320 am2320 = Adafruit_AM2320();
 
+// TVOC + Humidity + Temperature
+Adafruit_CCS811 ccs;
+
 void setup() {
   // Serial
   Serial.begin(9600);
+  delay(100);
+  ccs.begin();
   delay(100);
   Serial1.begin(9600);
   delay(100);
@@ -86,6 +93,37 @@ void loop()
     unsigned int responseHigh = (unsigned int) response[2];
     unsigned int responseLow = (unsigned int) response[3];
     unsigned int ppm = (256 * responseHigh) + responseLow;
+
+  if(ccs.available()){
+    if(!ccs.readData()){
+      Serial.println(" CO2(TVOC): ");
+      Serial.print(ccs.geteCO2());
+      Serial.print(" ppm");
+
+      oled.print(" CO2(TVOC): ");
+      oled.print(ccs.geteCO2());
+      oled.print(" ppm");
+
+      delay(5000);
+      oled.clear();
+
+      Serial.println(" TVOC: ");
+      Serial.print(ccs.getTVOC());
+      Serial.print(" ppd\n");
+
+      oled.print(" TVOC: ");
+      oled.print(ccs.getTVOC());
+      oled.print(" ppd");   
+      delay(5000);
+      oled.clear();
+    }
+    else{
+      Serial.println("TVOC sensor isn ready!");
+      while(1);
+    }
+  }
+  delay(500);
+
 
     oled.print(" Temperature:   ");
     oled.print(am2320.readTemperature());
