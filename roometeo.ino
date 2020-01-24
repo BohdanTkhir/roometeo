@@ -113,10 +113,10 @@ void loop()
     if (ccs.available()) {
       if (!ccs.readData()) {
 
-        Serial.println(" CO2(TVOC): ");
+        Serial.println(" eCO2: ");
         Serial.print(ccs.geteCO2());
         Serial.print(" ppm");
-        Serial1.print(" CO2(TVOC): ");
+        Serial1.print(" eCO2: ");
         Serial1.print(ccs.geteCO2());
         Serial1.print(" ppm\n");
 
@@ -127,7 +127,7 @@ void loop()
         }
         if (oledSaveCounter < OLED_CYCLES)
         {
-          oled.print(" CO2(TVOC): \n ");
+          oled.print(" eCO2: \n ");
           oled.print(ccs.geteCO2());
           oled.print(" ppm");
           delay(5000);
@@ -288,7 +288,6 @@ void loop()
   oled.clear();
   oledSaveCounter += 1;
 }
-
 
 void beep(int times, int pin) // LOW ACTIVE LEVEL BUZZER BEEPER
 {
