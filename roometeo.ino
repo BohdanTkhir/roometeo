@@ -3,7 +3,7 @@
 /*     Email:    Tkhir.Bogdan9@gmail.com                    */
 /*     Date:     23.01.2020                                 */
 /*     Ver.:     0.9 nightly                                */
-/*     Codename: Roometeo                                   */            
+/*     Codename: Roometeo                                   */
 /*                                                          */
 /*     Board:  Arduino Leonardo                             */
 /*                                                          */
@@ -54,7 +54,7 @@ int oledSaveCounter = 0;
 // NOTE: After 2500ppm will be buzzer signal cause it stars of health influence
 
 // NOTE: To wake OLED you need to hold button to time when it can be readed.
-                /*( Yes, It can be done by interrupt, but maybe later :) )*/
+/*( Yes, It can be done by interrupt, but maybe later :) )*/
 
 void setup() {
   // Serial
@@ -231,28 +231,28 @@ void loop()
       {
         oled.println(" CO2: " + String(ppm) + " ppm");
       }
-      if (ppm < 450) {
+      if (ppm < PERFECT_CO2) {
         if (oledSaveCounter < OLED_CYCLES)
         {
           oled.println(" Great");
         }
         digitalWrite(13, HIGH);
       }
-      else if (ppm < 600) {
+      else if (ppm < GOOD_CO2) {
         if (oledSaveCounter < OLED_CYCLES)
         {
           oled.println(" Good");
         }
         digitalWrite(13, HIGH);
       }
-      else if (ppm < 1000) {
+      else if (ppm < ACCEPTABLE_CO2) {
         if (oledSaveCounter < OLED_CYCLES)
         {
           oled.println(" Acceptable");
         }
         digitalWrite(13, HIGH);
       }
-      else if (ppm < 2500) {
+      else if (ppm < BAD_CO2) {
         if (oledSaveCounter < OLED_CYCLES)
         {
           oled.println(" Bad");
@@ -268,7 +268,23 @@ void loop()
     }
   }
   Serial1.print("------------------------\n");
-  delay(10000);
+  delay(3000);
+  
+  int show = digitalRead(11);
+  if (!show)
+  {
+    oledSaveCounter = 0;
+  }
+  delay(3000);
+  if (!show)
+  {
+    oledSaveCounter = 0;
+  }
+  delay(3000);
+  if (!show)
+  {
+    oledSaveCounter = 0;
+  }
   oled.clear();
   oledSaveCounter += 1;
 }
